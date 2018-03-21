@@ -64,7 +64,7 @@ public class EventAdapter extends Adapter<EventAdapter.EventHolder> {
 
         public EventHolder(View itemView) {
             super( itemView );
-            tvLocation = itemView.findViewById( R.id.textviewLocation );
+            tvLocation = itemView.findViewById( R.id.textViewLocation);
             itemView.setOnClickListener( this );
         }
 

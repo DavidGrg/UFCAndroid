@@ -78,10 +78,7 @@ public class FightersAdapter extends RecyclerView.Adapter<FightersAdapter.Fighte
             this.fighters = fighters;
             tvfirstName.setText( fighters.getFirstName() );
             tvLastName.setText( fighters.getLastName() );
-            Picasso.with(context)
-                    .load(fighters.getProfileImage())
-                    .into(imgFighter);
-
+            Picasso.with(this.imgFighter.getContext()).load(fighters.getThumbnail()).into(imgFighter);
 
         }
 

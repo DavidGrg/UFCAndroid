@@ -69,6 +69,7 @@ public class FightersFragment extends Fragment {
                 dotheUpdate();
             }
         } );
+        createFighter();
 
 
         return view;
