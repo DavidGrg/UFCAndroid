@@ -80,19 +80,19 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaHolder>
             this.media = media;
             tvMediaTitle.setText( media.getTitle() );
             tvDescription.setText( media.getDescription() );
-            Picasso.with(this.imgMedia.getContext()).load(media.getThumbnail()).into(imgMedia);
+            Picasso.with(this.imgMedia.getContext()).load(media.getThumbnail()).into(imgMedia);     //displays the thumbnail of the video.
 
         }
 
         @Override
         public void onClick(View v) {
 
-            String url = media.getMobileVideoUrl();
+            String url = media.getMobileVideoUrl();   // Retrieves the url for the video of the selected media.
             Uri uri = Uri.parse( url );
             Intent intent = new Intent( Intent.ACTION_VIEW, uri );
-            intent.setDataAndType( uri, "video/*" );
+            intent.setDataAndType( uri, "video/*" );        // setting the data type i.e. video in this scenario.
             //intent.setDataAndType(uri, "audio/*");
-            v.getContext().startActivity( intent );
+            v.getContext().startActivity( intent );                //starts the video using one of the video player.
 
 
         }

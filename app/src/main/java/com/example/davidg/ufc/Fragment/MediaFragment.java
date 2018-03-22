@@ -115,8 +115,16 @@ public class MediaFragment extends Fragment {
                     public void accept(List<Media> media) throws Exception {
 
                         mediaAdapter.addMedia( media );
+                        Toast.makeText( getActivity(), media.get( 0 ).getMediaDate(), Toast.LENGTH_SHORT ).show();
                         strl.setRefreshing( false );
 
+                    }
+
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Toast.makeText( getActivity(), throwable.getMessage(), Toast.LENGTH_LONG ).show();
+                        strl.setRefreshing( false );
                     }
                 } );
 

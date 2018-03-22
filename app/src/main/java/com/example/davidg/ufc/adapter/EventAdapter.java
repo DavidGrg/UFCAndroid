@@ -1,9 +1,13 @@
 package com.example.davidg.ufc.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -67,6 +71,7 @@ public class EventAdapter extends Adapter<EventAdapter.EventHolder> {
 
         private Events events;
         TextView tvArena, tvTagTitle, tvLocation;
+         private EventsFragment eventsFragment;
 
 
         public EventHolder(View itemView) {
@@ -89,8 +94,7 @@ public class EventAdapter extends Adapter<EventAdapter.EventHolder> {
         @Override
         public void onClick(View v) {
 
-            Intent intent = new Intent (v.getContext(), MapViewFragment.class );
-            v.getContext().startActivity( intent);
+
 
         }
     }

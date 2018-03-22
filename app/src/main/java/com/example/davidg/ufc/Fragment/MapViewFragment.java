@@ -27,7 +27,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById( R.id.map );
 
-        mapFragment.getMapAsync( this );
+        mapFragment.getMapAsync( this );   //calls the onMapReady method which helps on  setting up the google Map.
 
 
         return view;
@@ -38,6 +38,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        mMap = googleMap;
+        mMap = googleMap;              // Displays the google map
     }
 }

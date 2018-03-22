@@ -1,6 +1,9 @@
 package com.example.davidg.ufc.Fragment;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -133,6 +136,17 @@ public class EventsFragment extends Fragment {
 
 
     }
+
+
+//    public AlertDialog createDialog(){
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder( getActivity());
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//        dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+//
+//        return dialog;
+//    }
 
 
 }

@@ -116,6 +116,12 @@ public class NewsFragment extends Fragment {
                         strl.setRefreshing( false );
 
                     }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Toast.makeText( getActivity(), throwable.getMessage(), Toast.LENGTH_LONG ).show();
+                        strl.setRefreshing( false );
+                    }
                 } );
 
 

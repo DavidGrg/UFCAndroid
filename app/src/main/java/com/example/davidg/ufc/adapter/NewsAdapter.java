@@ -1,5 +1,7 @@
 package com.example.davidg.ufc.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -78,6 +80,9 @@ public class NewsAdapter extends Adapter<NewsAdapter.NewsHolder> {
 
         @Override
         public void onClick(View v) {
+
+            Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "http://ufc-data-api.ufc.com/api/v3/us/news/" + news.getId() ) );  // takes to selected article using the unique id.
+            v.getContext().startActivity( intent );
 
 
         }

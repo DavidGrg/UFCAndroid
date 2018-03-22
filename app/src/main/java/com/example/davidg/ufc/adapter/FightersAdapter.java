@@ -80,14 +80,14 @@ public class FightersAdapter extends RecyclerView.Adapter<FightersAdapter.Fighte
             this.fighters = fighters;
             tvfirstName.setText( fighters.getFirstName() );
             tvLastName.setText( fighters.getLastName() );
-            Picasso.with(this.imgFighter.getContext()).load(fighters.getThumbnail()).into(imgFighter);
+            Picasso.with(this.imgFighter.getContext()).load(fighters.getThumbnail()).into(imgFighter);    //displays the image of each fighter next to their name.
 
         }
 
         @Override
         public void onClick(View v) {
 
-            Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighters.getId() ) );  // takes to selected fighter's details site.
+            Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighters.getId() ) );  // takes to selected fighter's details site using the unique id for each fighter.
             v.getContext().startActivity( intent );
 
 
