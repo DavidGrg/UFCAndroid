@@ -1,6 +1,9 @@
 package com.example.davidg.ufc.adapter;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -11,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.davidg.ufc.Fragment.EventsFragment;
+import com.example.davidg.ufc.Fragment.MapViewFragment;
 import com.example.davidg.ufc.Model.Events;
 import com.example.davidg.ufc.R;
 
@@ -28,7 +33,7 @@ import butterknife.BindView;
 public class EventAdapter extends Adapter<EventAdapter.EventHolder> {
 
 
-    private List<Events> eventsList = new LinkedList<>(  );
+    private List<Events> eventsList = new LinkedList<>();
 
     @Override
     public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,19 +63,15 @@ public class EventAdapter extends Adapter<EventAdapter.EventHolder> {
     }
 
 
-
-
-
-    public class EventHolder extends ViewHolder  implements View.OnClickListener{   /////// ViewHolder for Events
+    public class EventHolder extends ViewHolder implements View.OnClickListener {   /////// ViewHolder for Events
 
         private Events events;
-        TextView tvArena, tvTagTitle,tvLocation;
-
+        TextView tvArena, tvTagTitle, tvLocation;
 
 
         public EventHolder(View itemView) {
             super( itemView );
-            tvArena = itemView.findViewById( R.id.textviewArena);
+            tvArena = itemView.findViewById( R.id.textviewArena );
             tvTagTitle = itemView.findViewById( R.id.textviewTagTitle );
             tvLocation = itemView.findViewById( R.id.textviewLocation );
             itemView.setOnClickListener( this );
@@ -87,7 +88,10 @@ public class EventAdapter extends Adapter<EventAdapter.EventHolder> {
 
         @Override
         public void onClick(View v) {
-            System.out.println(events.getArena());
+
+            Intent intent = new Intent (v.getContext(), MapViewFragment.class );
+            v.getContext().startActivity( intent);
+
         }
     }
 }

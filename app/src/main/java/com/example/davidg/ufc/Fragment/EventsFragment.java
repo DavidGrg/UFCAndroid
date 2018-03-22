@@ -96,33 +96,40 @@ public class EventsFragment extends Fragment {
                 .cache( cache )
                 .build();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl( "http://ufc-data-api.ufc.com/" )
-                .client( okHttpClient )
-                .addConverterFactory( GsonConverterFactory.create() )
-                .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
-                .build();
+        try {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl( "http://ufc-data-api.ufc.com/" )
+                    .client( okHttpClient )
+                    .addConverterFactory( GsonConverterFactory.create() )
+                    .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
+                    .build();
 
-        ObservableEventsApiInterface apiService = retrofit.create( ObservableEventsApiInterface.class );
-        apiService.getEvents()
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Consumer<List<Events>>() {
-                    @Override
-                    public void accept(List<Events> events) throws Exception {
+            ObservableEventsApiInterface apiService = retrofit.create( ObservableEventsApiInterface.class );
+            apiService.getEvents()
+                    .subscribeOn( Schedulers.io() )
+                    .observeOn( AndroidSchedulers.mainThread() )
+                    .subscribe( new Consumer<List<Events>>() {
+                        @Override
+                        public void accept(List<Events> events) throws Exception {
 
-                        eventAdapter.addEvents( events );
-                        Toast.makeText( getActivity(), events.get( 0 ).getSubtitle(), Toast.LENGTH_LONG ).show();
-                        strl.setRefreshing( false );
+                            eventAdapter.addEvents( events );
+                            Toast.makeText( getActivity(), events.get( 0 ).getSubtitle(), Toast.LENGTH_LONG ).show();
+                            strl.setRefreshing( false );
 
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Toast.makeText( getActivity(), throwable.getMessage(), Toast.LENGTH_LONG ).show();
-                        strl.setRefreshing( false );
-                    }
-                } );
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            Toast.makeText( getActivity(), throwable.getMessage(), Toast.LENGTH_LONG ).show();
+                            strl.setRefreshing( false );
+                        }
+                    } );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            Toast.makeText( getActivity(), "Try Again Later", Toast.LENGTH_LONG ).show();
+        }
 
 
     }

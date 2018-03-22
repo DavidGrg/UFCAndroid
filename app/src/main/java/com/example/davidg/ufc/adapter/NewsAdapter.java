@@ -79,7 +79,6 @@ public class NewsAdapter extends Adapter<NewsAdapter.NewsHolder> {
         @Override
         public void onClick(View v) {
 
-            System.out.println( news.getAuthor() );
 
         }
     }

@@ -1,6 +1,8 @@
 package com.example.davidg.ufc.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +87,9 @@ public class FightersAdapter extends RecyclerView.Adapter<FightersAdapter.Fighte
         @Override
         public void onClick(View v) {
 
-            System.out.println( fighters.getRank() );
+            Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "http://ufc-data-api.ufc.com/api/v3/us/fighters/" + fighters.getId() ) );  // takes to selected fighter's details site.
+            v.getContext().startActivity( intent );
+
 
         }
     }

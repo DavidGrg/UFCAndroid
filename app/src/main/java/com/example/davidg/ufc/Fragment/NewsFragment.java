@@ -34,6 +34,7 @@ public class NewsFragment extends Fragment {
 
     @BindView(R.id.swipeRefreshNews)
     SwipeRefreshLayout strl;
+
     @BindView(R.id.rv_news)
     RecyclerView recyclerView;
 

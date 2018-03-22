@@ -42,6 +42,7 @@ public class MediaFragment extends Fragment {
     SwipeRefreshLayout strl;
     @BindView(R.id.rv_media)
     RecyclerView recyclerView;
+
     private MediaAdapter mediaAdapter;
 
 
@@ -114,7 +115,6 @@ public class MediaFragment extends Fragment {
                     public void accept(List<Media> media) throws Exception {
 
                         mediaAdapter.addMedia( media );
-                        Toast.makeText( getActivity(), media.get( 0 ).getMediaDate(), Toast.LENGTH_SHORT ).show();
                         strl.setRefreshing( false );
 
                     }

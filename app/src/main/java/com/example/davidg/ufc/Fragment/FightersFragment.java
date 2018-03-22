@@ -37,8 +37,10 @@ public class FightersFragment extends Fragment {
 
     @BindView(R.id.swipeRefresfighters)
     SwipeRefreshLayout strl;
+
     @BindView(R.id.rv_fighters)
     RecyclerView recyclerView;
+
     private FightersAdapter fightersAdapter;
 
     public static FightersFragment newInstance() {
