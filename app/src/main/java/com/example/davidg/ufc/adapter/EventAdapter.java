@@ -14,8 +14,12 @@ import android.widget.Toast;
 import com.example.davidg.ufc.Model.Events;
 import com.example.davidg.ufc.R;
 
+import org.w3c.dom.Text;
+
 import java.util.LinkedList;
 import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * Created by DavidG on 21/03/2018.
@@ -60,16 +64,22 @@ public class EventAdapter extends Adapter<EventAdapter.EventHolder> {
     public class EventHolder extends ViewHolder  implements View.OnClickListener{   /////// ViewHolder for Events
 
         private Events events;
-        TextView tvLocation;
+        TextView tvArena, tvTagTitle,tvLocation;
+
+
 
         public EventHolder(View itemView) {
             super( itemView );
-            tvLocation = itemView.findViewById( R.id.textViewLocation);
+            tvArena = itemView.findViewById( R.id.textviewArena);
+            tvTagTitle = itemView.findViewById( R.id.textviewTagTitle );
+            tvLocation = itemView.findViewById( R.id.textviewLocation );
             itemView.setOnClickListener( this );
         }
 
         public void bind(Events events) {
             this.events = events;
+            tvTagTitle.setText( events.getTitleTagLine() );
+            tvArena.setText( events.getArena() );
             tvLocation.setText( events.getLocation() );
 
 

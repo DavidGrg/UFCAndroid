@@ -1,4 +1,4 @@
-package com.example.davidg.ufc;
+package com.example.davidg.ufc.Fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.davidg.ufc.Model.Fighters;
-import com.example.davidg.ufc.Model.News;
+import com.example.davidg.ufc.Model.Media;
+import com.example.davidg.ufc.R;
 import com.example.davidg.ufc.adapter.FightersAdapter;
+import com.example.davidg.ufc.adapter.MediaAdapter;
 import com.example.davidg.ufc.api.ObservableFightersApiInterface;
-import com.example.davidg.ufc.api.ObservableNewsApiInterface;
+import com.example.davidg.ufc.api.ObservableMediaApiInterface;
 
 import java.util.List;
 
@@ -27,49 +29,51 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by DavidG on 21/03/2018.
+ * Created by DavidG on 22/03/2018.
  */
 
-public class FightersFragment extends Fragment {
+public class MediaFragment extends Fragment{
+
 
     private SwipeRefreshLayout strl;
     private RecyclerView recyclerView;
-    private FightersAdapter fightersAdapter;
+    private MediaAdapter mediaAdapter;
 
-    public static FightersFragment newInstance() {
+
+    public static MediaFragment newInstance() {
+
         Bundle args = new Bundle();
-        FightersFragment fragment = new FightersFragment();
+        MediaFragment fragment = new MediaFragment();
         fragment.setArguments( args );
         return fragment;
-
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate( R.layout.activity_fighters_fragment, container, false );
+        View view = inflater.inflate( R.layout.activity_mediafragment, container, false );
 
 
-        recyclerView = view.findViewById( R.id.rv_fighters );
-        recyclerView.setAdapter( fightersAdapter = new FightersAdapter() );
+        recyclerView = view.findViewById( R.id.rv_media );
+        recyclerView.setAdapter( mediaAdapter = new MediaAdapter() );
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
 
-        strl = view.findViewById( R.id.swipeRefresfighters );
+        strl = view.findViewById( R.id.swipeRefreshMedia );
         strl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                fightersAdapter.emptyFighters();
+                mediaAdapter.emptyMedia();
 
                 strl.postDelayed( new Runnable() {
                     @Override
                     public void run() {
-                        createFighter();
+                        createMedia();
                     }
                 }, 100L );
 
                 dotheUpdate();
             }
         } );
-        createFighter();
+        createMedia();
 
 
         return view;
@@ -82,9 +86,7 @@ public class FightersFragment extends Fragment {
         strl.setRefreshing( false );
     }
 
-
-    private void createFighter() {
-
+    private void createMedia() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( "http://ufc-data-api.ufc.com/" )
@@ -92,22 +94,24 @@ public class FightersFragment extends Fragment {
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
 
-        final ObservableFightersApiInterface fightersApiInterface = retrofit.create( ObservableFightersApiInterface.class );
-        fightersApiInterface.getFighters()
+        final ObservableMediaApiInterface mediaApiInterface = retrofit.create( ObservableMediaApiInterface.class );
+        mediaApiInterface.getMedia()
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Consumer<List<Fighters>>() {
+                .subscribe( new Consumer<List<Media>>() {
+
                     @Override
-                    public void accept(List<Fighters> fighters) throws Exception {
-                        fightersAdapter.addFighters( fighters );
-                        Toast.makeText( getActivity(), fighters.get( 0 ).getFighterStatus(), Toast.LENGTH_SHORT ).show();
+                    public void accept(List<Media> media) throws Exception {
+
+                        mediaAdapter.addMedia( media );
+                        Toast.makeText( getActivity(), media.get( 0 ).getMediaDate(), Toast.LENGTH_SHORT ).show();
                         strl.setRefreshing( false );
 
                     }
-                } );
+                });
 
 
-    }
 
 
+}
 }

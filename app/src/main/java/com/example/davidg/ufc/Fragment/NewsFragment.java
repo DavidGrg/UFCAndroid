@@ -1,4 +1,4 @@
-package com.example.davidg.ufc;
+package com.example.davidg.ufc.Fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,9 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.davidg.ufc.Model.Events;
-import com.example.davidg.ufc.adapter.EventAdapter;
-import com.example.davidg.ufc.api.ObservableEventsApiInterface;
+import com.example.davidg.ufc.Model.News;
+import com.example.davidg.ufc.R;
+import com.example.davidg.ufc.adapter.NewsAdapter;
+import com.example.davidg.ufc.api.ObservableNewsApiInterface;
 
 import java.util.List;
 
@@ -24,44 +25,42 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by DavidG on 21/03/2018.
- */
-
-public class EventsFragment extends Fragment {
-
+public class NewsFragment extends Fragment {
 
     private SwipeRefreshLayout strl;
-    private RecyclerView rv;
-    private EventAdapter eventAdapter;
+    private RecyclerView recyclerView;
+    private NewsAdapter newsAdapter;
 
-    public static EventsFragment newInstance() {
+
+    public static NewsFragment newInstance() {
 
         Bundle args = new Bundle();
-        EventsFragment fragment = new EventsFragment();
+        NewsFragment fragment = new NewsFragment();
         fragment.setArguments( args );
         return fragment;
     }
 
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate( R.layout.activity_eventfragment, container, false );
-
-        rv = view.findViewById( R.id.rv_events );
-        rv.setAdapter( eventAdapter = new EventAdapter() );
-        rv.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
+        View view = inflater.inflate( R.layout.activity_news_fragment, container, false );
 
 
-        strl = view.findViewById( R.id.swipeRefreshevent );
+        recyclerView = view.findViewById( R.id.rv_news );
+        recyclerView.setAdapter( newsAdapter = new NewsAdapter() );
+        recyclerView.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
+
+
+        strl = view.findViewById( R.id.swipeRefreshNews );
         strl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                eventAdapter.emptyEvents();
+                newsAdapter.emptyNews();
 
                 strl.postDelayed( new Runnable() {
                     @Override
                     public void run() {
-                        doNetworkCall();
+                        createNews();
                     }
                 }, 100L );
 
@@ -69,36 +68,35 @@ public class EventsFragment extends Fragment {
             }
         } );
 
-        doNetworkCall();
-
-
+        createNews();
         return view;
     }
 
-
     private void dotheUpdate() {
-        strl.setRefreshing( false );
 
+        strl.setRefreshing( false ); // disables the refresh
     }
 
-    private void doNetworkCall() {
+
+    private void createNews() {
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( "http://ufc-data-api.ufc.com/" )
-                .addConverterFactory( GsonConverterFactory.create() )
                 .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
+                .addConverterFactory( GsonConverterFactory.create() )
                 .build();
 
-        ObservableEventsApiInterface apiService = retrofit.create( ObservableEventsApiInterface.class );
-        apiService.getEvents()
+        ObservableNewsApiInterface newsApiInterface = retrofit.create( ObservableNewsApiInterface.class );
+        newsApiInterface.getNews()
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Consumer<List<Events>>() {
+                .subscribe( new Consumer<List<News>>() {
                     @Override
-                    public void accept(List<Events> events) throws Exception {
+                    public void accept(List<News> newsList) throws Exception {
 
-                        eventAdapter.addEvents( events );
-                        Toast.makeText( getActivity(), events.get( 0 ).getSubtitle(), Toast.LENGTH_LONG ).show();
+                        newsAdapter.addNews( newsList );
+                        Toast.makeText( getActivity(), newsList.get( 0 ).getTitle(), Toast.LENGTH_SHORT ).show();
                         strl.setRefreshing( false );
 
                     }
@@ -106,6 +104,4 @@ public class EventsFragment extends Fragment {
 
 
     }
-
-
 }
