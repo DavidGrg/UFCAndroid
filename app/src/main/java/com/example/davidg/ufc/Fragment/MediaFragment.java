@@ -26,6 +26,8 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -34,10 +36,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by DavidG on 22/03/2018.
  */
 
-public class MediaFragment extends Fragment{
+public class MediaFragment extends Fragment {
 
-    @BindView( R.id.swipeRefreshMedia )  SwipeRefreshLayout strl;
-    @BindView( R.id.rv_media ) RecyclerView  recyclerView;
+    @BindView(R.id.swipeRefreshMedia)
+    SwipeRefreshLayout strl;
+    @BindView(R.id.rv_media)
+    RecyclerView recyclerView;
     private MediaAdapter mediaAdapter;
 
 
@@ -87,9 +91,15 @@ public class MediaFragment extends Fragment{
     }
 
     private void createMedia() {
+        int cacheSize = 10 * 1024 * 1024;                                  // stores the data with the size of 10MB
+        Cache cache = new Cache( getActivity().getCacheDir(), cacheSize );   //Caching the data for offline use.
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .cache( cache )
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( "http://ufc-data-api.ufc.com/" )
+                .client( okHttpClient )
                 .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
@@ -108,10 +118,8 @@ public class MediaFragment extends Fragment{
                         strl.setRefreshing( false );
 
                     }
-                });
+                } );
 
 
-
-
-}
+    }
 }

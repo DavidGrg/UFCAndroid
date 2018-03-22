@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,9 +32,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NewsFragment extends Fragment {
 
 
-
-    @BindView( R.id.swipeRefreshNews )  SwipeRefreshLayout strl;
-    @BindView( R.id.rv_news ) RecyclerView  recyclerView;
+    @BindView(R.id.swipeRefreshNews)
+    SwipeRefreshLayout strl;
+    @BindView(R.id.rv_news)
+    RecyclerView recyclerView;
 
 
     private NewsAdapter newsAdapter;
@@ -54,7 +57,6 @@ public class NewsFragment extends Fragment {
 
         recyclerView.setAdapter( newsAdapter = new NewsAdapter() );
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
-
 
 
         strl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
@@ -86,9 +88,16 @@ public class NewsFragment extends Fragment {
 
     private void createNews() {
 
+        int cacheSize = 10 * 1024 * 1024;                                  // stores the data with the size of 10MB
+        Cache cache = new Cache( getActivity().getCacheDir(), cacheSize );   //Caching the data for offline use.
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .cache( cache )
+                .build();
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( "http://ufc-data-api.ufc.com/" )
+                .client( okHttpClient )
                 .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();

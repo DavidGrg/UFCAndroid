@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -33,8 +35,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EventsFragment extends Fragment {
 
-    @BindView( R.id.swipeRefreshevent )  SwipeRefreshLayout strl;
-    @BindView( R.id.rv_events ) RecyclerView  rv;
+    @BindView(R.id.swipeRefreshevent)
+    SwipeRefreshLayout strl;
+    @BindView(R.id.rv_events)
+    RecyclerView rv;
     private EventAdapter eventAdapter;
 
     public static EventsFragment newInstance() {
@@ -48,10 +52,12 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.activity_eventfragment, container, false );
 
-        ButterKnife.bind( this,view );
+        ButterKnife.bind( this, view )
+        ;
 
         rv.setAdapter( eventAdapter = new EventAdapter() );
         rv.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
+
 
         strl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -84,8 +90,15 @@ public class EventsFragment extends Fragment {
 
     private void doNetworkCall() {
 
+        int cacheSize = 10 * 1024 * 1024;                                  // stores the data with the size of 10MB
+        Cache cache = new Cache( getActivity().getCacheDir(), cacheSize );   //Caching the data for offline use.
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .cache( cache )
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( "http://ufc-data-api.ufc.com/" )
+                .client( okHttpClient )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
                 .build();
@@ -102,6 +115,12 @@ public class EventsFragment extends Fragment {
                         Toast.makeText( getActivity(), events.get( 0 ).getSubtitle(), Toast.LENGTH_LONG ).show();
                         strl.setRefreshing( false );
 
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Toast.makeText( getActivity(), throwable.getMessage(), Toast.LENGTH_LONG ).show();
+                        strl.setRefreshing( false );
                     }
                 } );
 

@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById( R.id.nav_view );
         navigationView.setNavigationItemSelectedListener( this );
 
-        FragmentManager fragmentManager= getFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container
-                        ,new EventsFragment())       // setting Event Fragment as default so that when you open app that is the first page it goes to.
+                .replace( R.id.fragment_container
+                        , new EventsFragment() )       // setting Event Fragment as default so that when you open app that is the first page it goes to.
                 .commit();
 
 
