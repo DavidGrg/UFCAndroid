@@ -18,6 +18,8 @@ import com.example.davidg.ufc.api.ObservableEventsApiInterface;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -31,9 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EventsFragment extends Fragment {
 
-
-    private SwipeRefreshLayout strl;
-    private RecyclerView rv;
+    @BindView( R.id.swipeRefreshevent )  SwipeRefreshLayout strl;
+    @BindView( R.id.rv_events ) RecyclerView  rv;
     private EventAdapter eventAdapter;
 
     public static EventsFragment newInstance() {
@@ -47,12 +48,11 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.activity_eventfragment, container, false );
 
-        rv = view.findViewById( R.id.rv_events );
+        ButterKnife.bind( this,view );
+
         rv.setAdapter( eventAdapter = new EventAdapter() );
         rv.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
 
-
-        strl = view.findViewById( R.id.swipeRefreshevent );
         strl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

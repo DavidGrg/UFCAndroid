@@ -18,6 +18,8 @@ import com.example.davidg.ufc.api.ObservableFightersApiInterface;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -31,8 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FightersFragment extends Fragment {
 
-    private SwipeRefreshLayout strl;
-    private RecyclerView recyclerView;
+    @BindView( R.id.swipeRefresfighters )  SwipeRefreshLayout strl;
+    @BindView( R.id.rv_fighters ) RecyclerView  recyclerView;
     private FightersAdapter fightersAdapter;
 
     public static FightersFragment newInstance() {
@@ -46,12 +48,12 @@ public class FightersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.activity_fighters_fragment, container, false );
 
+        ButterKnife.bind( this, view );
 
-        recyclerView = view.findViewById( R.id.rv_fighters );
+
         recyclerView.setAdapter( fightersAdapter = new FightersAdapter() );
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
 
-        strl = view.findViewById( R.id.swipeRefresfighters );
         strl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

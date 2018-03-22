@@ -1,16 +1,23 @@
 package com.example.davidg.ufc.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.davidg.ufc.Fragment.MediaFragment;
+import com.example.davidg.ufc.Fragment.MediaWebViewFragment;
 import com.example.davidg.ufc.Model.Media;
 import com.example.davidg.ufc.R;
 import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -60,6 +67,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaHolder>
         private Media media;
         private TextView tvMediaTitle, tvDescription;
         private ImageView imgMedia;
+        private Context context;
 
         public MediaHolder(View itemView) {
             super( itemView );
@@ -86,7 +94,13 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaHolder>
         @Override
         public void onClick(View v) {
 
-            System.out.println(media.getMediaDate());
+            String url = media.getMobileVideoUrl();
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setDataAndType(uri, "video/*");
+            //intent.setDataAndType(uri, "audio/*");
+            v.getContext().startActivity( intent );
+
 
         }
     }

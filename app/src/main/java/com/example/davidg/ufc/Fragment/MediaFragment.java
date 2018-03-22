@@ -21,6 +21,8 @@ import com.example.davidg.ufc.api.ObservableMediaApiInterface;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -34,9 +36,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MediaFragment extends Fragment{
 
-
-    private SwipeRefreshLayout strl;
-    private RecyclerView recyclerView;
+    @BindView( R.id.swipeRefreshMedia )  SwipeRefreshLayout strl;
+    @BindView( R.id.rv_media ) RecyclerView  recyclerView;
     private MediaAdapter mediaAdapter;
 
 
@@ -51,12 +52,11 @@ public class MediaFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.activity_mediafragment, container, false );
 
+        ButterKnife.bind( this, view );
 
-        recyclerView = view.findViewById( R.id.rv_media );
         recyclerView.setAdapter( mediaAdapter = new MediaAdapter() );
         recyclerView.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
 
-        strl = view.findViewById( R.id.swipeRefreshMedia );
         strl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

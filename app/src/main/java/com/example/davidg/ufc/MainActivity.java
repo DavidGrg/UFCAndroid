@@ -1,5 +1,6 @@
 package com.example.davidg.ufc;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -38,6 +39,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById( R.id.nav_view );
         navigationView.setNavigationItemSelectedListener( this );
+
+        FragmentManager fragmentManager= getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container
+                        ,new EventsFragment())       // setting Event Fragment as default so that when you open app that is the first page it goes to.
+                .commit();
+
+
     }
 
     @Override
@@ -74,7 +83,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item) {  //swtiching between the fragments
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
