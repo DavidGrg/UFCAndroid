@@ -1,6 +1,7 @@
 package com.example.davidg.ufc.api;
 
 import com.example.davidg.ufc.Model.Events;
+import com.example.davidg.ufc.Model.Media;
 
 import java.util.List;
 
@@ -15,4 +16,7 @@ public interface ObservableEventsApiInterface {
 
     @GET("api/v3/us/events")
     Observable<List<Events>> getEvents();
+
+    @GET("api/v3/us/media")
+    Observable<List<Media>> getMedia();
 }

@@ -55,8 +55,7 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.activity_eventfragment, container, false );
 
-        ButterKnife.bind( this, view )
-        ;
+        ButterKnife.bind( this, view );
 
         rv.setAdapter( eventAdapter = new EventAdapter() );
         rv.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );

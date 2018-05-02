@@ -16,6 +16,7 @@ import com.example.davidg.ufc.Model.Media;
 import com.example.davidg.ufc.R;
 import com.example.davidg.ufc.adapter.FightersAdapter;
 import com.example.davidg.ufc.adapter.MediaAdapter;
+import com.example.davidg.ufc.api.ObservableEventsApiInterface;
 import com.example.davidg.ufc.api.ObservableFightersApiInterface;
 import com.example.davidg.ufc.api.ObservableMediaApiInterface;
 
@@ -105,8 +106,8 @@ public class MediaFragment extends Fragment {
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
 
-        final ObservableMediaApiInterface mediaApiInterface = retrofit.create( ObservableMediaApiInterface.class );
-        mediaApiInterface.getMedia()
+        final ObservableEventsApiInterface eventsApiInterface = retrofit.create( ObservableEventsApiInterface.class );
+        eventsApiInterface.getMedia()
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new Consumer<List<Media>>() {

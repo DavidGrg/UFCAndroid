@@ -93,6 +93,8 @@ public class EventAdapter extends Adapter<EventAdapter.EventHolder> {
 
         @Override
         public void onClick(View v) {
+            Intent in = new Intent( v.getContext(), MapViewFragment.class );
+            v.getContext().startActivity(in);
 
 
 
